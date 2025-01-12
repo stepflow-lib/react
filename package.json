@@ -1,0 +1,50 @@
+{
+  "name": "react-stepflow",
+  "description": "An onboarding component for react, with a simple and easy to use API and a set of built-in components.",
+  "private": false,
+  "version": "0.0.3",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "author": "David Jaja",
+  "license": "MIT",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    },
+    "./index.css": "./dist/index.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && npm run build:styles",
+    "build:styles": "tailwindcss -i ./src/styles/global.css -o ./dist/index.css",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "framer-motion": "^10.12.16",
+    "lucide-react": "^0.244.0",
+    "clsx": "^1.2.1",
+    "tailwind-merge": "^1.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vite-plugin-dts": "^4.3.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
