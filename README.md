@@ -2,6 +2,7 @@
 
 > An onboarding component for react, with a simple and easy to use API and a set of built-in components.
 
+[![NPM Version](https://img.shields.io/npm/v/react-stepflow.svg)](https://www.npmjs.com/package/react-stepflow)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
