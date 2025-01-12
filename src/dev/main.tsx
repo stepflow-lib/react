@@ -36,7 +36,6 @@ const ReactDemo = () => {
           <OnboardingSteps steps={steps} />
         </div>
       </OnboardingProvider>
-
       <ThemeToggle />
     </div>
   );
