@@ -2,11 +2,33 @@
   "name": "react-stepflow",
   "description": "An onboarding component for react, with a simple and easy to use API and a set of built-in components.",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.0",
   "type": "module",
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stepflow-lib/react"
+  },
+  "keywords": [
+    "react",
+    "onboarding",
+    "stepper",
+    "wizard",
+    "multi-step",
+    "step-by-step",
+    "form",
+    "user-onboarding",
+    "flow",
+    "animation",
+    "framer-motion",
+    "typescript",
+    "tailwindcss",
+    "ui",
+    "component"
+  ],
+  "homepage": "https://github.com/stepflow-lib/react#readme",
   "author": "David Jaja",
   "license": "MIT",
   "main": "./dist/index.umd.js",

@@ -1,32 +1,30 @@
-# TimePick Kit React
+# React StepFlow
 
-A flexible and customizable time picker component for React applications with built-in popover support.
+> An onboarding component for react, with a simple and easy to use API and a set of built-in components.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
 ## Features
 
-🎨 Fully customizable styling via Tailwind CSS  
-🔄 Smooth animations with Framer Motion  
-⌨️ Keyboard navigation support  
-🎯 Click outside detection  
-🌗 Light/Dark mode support  
-📱 Mobile-friendly design  
-⚡ Lightweight and performant  
-🔌 Easy integration
+🎨 Fully customizable UI components  
+🔄 Smooth animations powered by Framer Motion  
+🌗 Dark/Light theme support built-in  
+📱 Mobile-first responsive design  
+⚡ Zero-config Tailwind CSS integration  
+✨ Type-safe with full TypeScript support
 
 ## Installation
 
 ```bash
-npm install timepick-kit-react
+npm install react-stepflow
 ```
 
-### Required Peer Dependencies
-
-The following packages are required as peer dependencies:
+## Peer Dependencies
 
 ```json
 {
   "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-  "date-fns": "^2.30.0",
   "framer-motion": "^10.12.16",
   "lucide-react": "^0.244.0",
   "clsx": "^1.2.1",
@@ -34,166 +32,285 @@ The following packages are required as peer dependencies:
 }
 ```
 
-## Basic Usage
+## Quick Start
 
-```tsx
-import { useState } from "react";
+```jsx
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverButton,
-  TimePicker,
-  TimeInput,
-} from "timepick-kit-react";
-import "timepick-kit-react/index.css";
+  OnboardingProvider,
+  OnboardingSteps,
+  OnboardingHeader,
+  OnboardingStepIndicator,
+} from "react-stepflow";
+import "react-stepflow/index.css";
 
 function App() {
-  const [time, setTime] = useState<TimeInput>(new Date());
+  const steps: OnboardingSteps[] = [
+    { id: 1, component: <Welcome /> },
+    { id: 2, component: <Setup /> },
+    { id: 3, component: <Complete /> },
+  ];
 
   return (
-    <Popover>
-      <PopoverTrigger>
-        <PopoverButton time={time} />
-      </PopoverTrigger>
-      <PopoverContent>
-        <TimePicker value={time} onChange={(newTime) => setTime(newTime)} />
-      </PopoverContent>
-    </Popover>
+    <OnboardingProvider stepsCount={steps.length}>
+      <div className="flex flex-col gap-4">
+        <OnboardingHeader title="Welcome" />
+        <OnboardingStepIndicator totalSteps={steps.length} />
+        <OnboardingSteps steps={steps} />
+      </div>
+    </OnboardingProvider>
   );
 }
 ```
 
 ## Components API
 
-### TimePicker
+### OnboardingProvider
 
-Main component for time selection.
+Root component that provides onboarding context.
 
-| Prop                    | Type                   | Default       | Description                                       |
-| ----------------------- | ---------------------- | ------------- | ------------------------------------------------- |
-| `value`                 | `TimeInput`            | **required**  | Current time value (Date, string, or Time object) |
-| `onChange`              | `(time: Time) => void` | **required**  | Callback when time changes                        |
-| `toggle`                | `() => void`           | optional      | Function to close picker                          |
-| `timepickerClassName`   | `string`               | optional      | Custom class for picker container                 |
-| `buttonClassName`       | `string`               | optional      | Custom class for increment/decrement buttons      |
-| `sectionClassName`      | `string`               | optional      | Custom class for hour/minute sections             |
-| `inputClassName`        | `string`               | optional      | Custom class for time input fields                |
-| `periodToggleClassName` | `string`               | optional      | Custom class for AM/PM toggle                     |
-| `closeButtonClassName`  | `string`               | optional      | Custom class for close button                     |
-| `incrementIcon`         | `LucideIcon`           | `ChevronUp`   | Custom icon for increment button                  |
-| `decrementIcon`         | `LucideIcon`           | `ChevronDown` | Custom icon for decrement button                  |
-| `closeIcon`             | `LucideIcon`           | `X`           | Custom icon for close button                      |
+| Prop         | Type        | Default      | Description                      |
+| ------------ | ----------- | ------------ | -------------------------------- |
+| `children`   | `ReactNode` | **required** | Child components                 |
+| `stepsCount` | `number`    | **required** | Total number of onboarding steps |
 
-### Popover Components
+### OnboardingSteps
 
-#### `<Popover />`
+Container component with animation support.
 
-Container component that manages popover state.
+| Prop                      | Type                | Default      | Description               |
+| ------------------------- | ------------------- | ------------ | ------------------------- |
+| `steps`                   | `OnboardingStep[]`  | **required** | Array of step components  |
+| `customAnimationConfig`   | `AnimationConfig`   | optional     | Custom animation settings |
+| `customAnimationVariants` | `AnimationVariants` | optional     | Custom animation variants |
 
-| Prop        | Type        | Default      | Description                |
-| ----------- | ----------- | ------------ | -------------------------- |
-| `children`  | `ReactNode` | **required** | Popover content components |
-| `className` | `string`    | optional     | Additional CSS classes     |
+### OnboardingStepIndicator
 
-#### `<PopoverTrigger />`
+Progress indicator component.
 
-Trigger element that toggles the popover.
+| Prop                    | Type              | Default      | Description               |
+| ----------------------- | ----------------- | ------------ | ------------------------- |
+| `totalSteps`            | `number`          | **required** | Total number of steps     |
+| `className`             | `string`          | optional     | Custom container class    |
+| `customAnimationConfig` | `AnimationConfig` | optional     | Custom animation settings |
 
-| Prop        | Type        | Default      | Description                   |
-| ----------- | ----------- | ------------ | ----------------------------- |
-| `children`  | `ReactNode` | **required** | Element that triggers popover |
-| `className` | `string`    | optional     | Additional CSS classes        |
+### Button
 
-#### `<PopoverContent />`
+Customizable button component.
 
-Content container for the popover.
+| Prop       | Type                                               | Default     | Description          |
+| ---------- | -------------------------------------------------- | ----------- | -------------------- |
+| `variant`  | `'primary' \| 'secondary' \| 'outline' \| 'ghost'` | `'primary'` | Button style variant |
+| `size`     | `'sm' \| 'md' \| 'lg'`                             | `'md'`      | Button size          |
+| `loading`  | `boolean`                                          | `false`     | Loading state        |
+| `disabled` | `boolean`                                          | `false`     | Disabled state       |
 
-| Prop        | Type          | Default                                 | Description                      |
-| ----------- | ------------- | --------------------------------------- | -------------------------------- |
-| `children`  | `ReactNode`   | **required**                            | Content to display in popover    |
-| `className` | `string`      | optional                                | Additional CSS classes           |
-| `isAnimate` | `boolean`     | `true`                                  | Enable/disable animations        |
-| `variants`  | `MotionProps` | [Default Animation](#default-animation) | Framer Motion animation variants |
+### Input
 
-##### Default Animation
+Form input component with validation.
 
-```tsx
-{
-  initial: { opacity: 0, y: "20%" },
-  animate: { opacity: 1, y: "5%" },
-  exit: { opacity: 0, y: "-20%" },
-  transition: { duration: 0.2 }
-}
+| Prop           | Type      | Default  | Description              |
+| -------------- | --------- | -------- | ------------------------ |
+| `label`        | `string`  | optional | Input label              |
+| `required`     | `boolean` | `false`  | Required field indicator |
+| `errorMessage` | `string`  | optional | Validation error message |
+
+### TextLabel
+
+Label text component.
+
+| Prop        | Type     | Default      | Description  |
+| ----------- | -------- | ------------ | ------------ |
+| `text`      | `string` | **required** | Label text   |
+| `className` | `string` | optional     | Custom class |
+
+### Checkbox
+
+Custom checkbox component.
+
+| Prop       | Type                         | Default      | Description    |
+| ---------- | ---------------------------- | ------------ | -------------- |
+| `name`     | `string`                     | **required** | Checkbox name  |
+| `checked`  | `boolean`                    | **required** | Checked state  |
+| `onChange` | `(checked: boolean) => void` | **required** | Change handler |
+| `children` | `ReactNode`                  | **required** | Label content  |
+
+### Dropdown
+
+Customizable dropdown component.
+
+| Prop        | Type                                       | Default      | Description      |
+| ----------- | ------------------------------------------ | ------------ | ---------------- |
+| `value`     | `string \| null`                           | **required** | Selected value   |
+| `setValue`  | `Dispatch<SetStateAction<string \| null>>` | **required** | Value setter     |
+| `children`  | `ReactNode`                                | **required** | Dropdown content |
+| `className` | `string`                                   | optional     | Custom styling   |
+
+### FormField
+
+Base form field wrapper component.
+
+| Prop             | Type      | Default      | Description              |
+| ---------------- | --------- | ------------ | ------------------------ |
+| `label`          | `string`  | **required** | Field label              |
+| `id`             | `string`  | optional     | Input element ID         |
+| `className`      | `string`  | optional     | Container class          |
+| `inputClassName` | `string`  | optional     | Input element class      |
+| `labelClassName` | `string`  | optional     | Label element class      |
+| `required`       | `boolean` | `false`      | Required field indicator |
+| `errorMessage`   | `string`  | optional     | Validation error message |
+
+### Spinner
+
+Loading spinner component.
+
+| Prop        | Type     | Default  | Description          |
+| ----------- | -------- | -------- | -------------------- |
+| `className` | `string` | optional | Custom styling class |
+
+Default styling includes:
+
+- Animated spinning effect
+- Responsive sizing (w-5 h-5)
+- Semi-transparent appearance
+- Current color inheritance
+
+## Extras
+
+For the components like that can't be targetted direcly, I've provided classnames to target them
+
+- `OnboardingStepDivider`: **onboarding-divider-outer** and **onboarding-divider-inner**
+- `OnboardingStepCircle`: **onboarding-step-circle**
+
+## Animation Types
+
+### AnimationConfig
+
+| Property    | Type                         | Default        | Description         |
+| ----------- | ---------------------------- | -------------- | ------------------- |
+| `duration`  | `number`                     | `0.3`          | Animation duration  |
+| `ease`      | `string`                     | `'easeInOut'`  | Easing function     |
+| `direction` | `'horizontal' \| 'vertical'` | `'horizontal'` | Animation direction |
+
+### AnimationVariants
+
+| Property  | Type                | Description              |
+| --------- | ------------------- | ------------------------ |
+| `initial` | `AnimationProperty` | Starting animation state |
+| `animate` | `AnimationProperty` | Active animation state   |
+| `exit`    | `AnimationProperty` | Exit animation state     |
+
+## Hook APIs
+
+### useOnboarding
+
+| Property      | Type                     | Description           |
+| ------------- | ------------------------ | --------------------- |
+| `currentStep` | `number`                 | Current active step   |
+| `totalSteps`  | `number`                 | Total number of steps |
+| `next`        | `() => void`             | Go to next step       |
+| `prev`        | `() => void`             | Go to previous step   |
+| `goToStep`    | `(step: number) => void` | Go to specific step   |
+
 ```
 
-## Types
-
-### TimeInput
-
-```ts
-type TimeInput = Date | string | Time;
-
-interface Time {
-  hour: number; // 1-12
-  minute: number; // 0-59
-  period: "AM" | "PM";
-}
 ```
+
+## Types API
+
+### OnboardingStep
+
+| Property    | Type        | Description            |
+| ----------- | ----------- | ---------------------- |
+| `id`        | `number`    | Unique step identifier |
+| `component` | `ReactNode` | Step content component |
+
+### AnimationConfig
+
+| Property    | Type                         | Description         |
+| ----------- | ---------------------------- | ------------------- |
+| `duration`  | `number`                     | Animation duration  |
+| `ease`      | `string`                     | Easing function     |
+| `direction` | `'horizontal' \| 'vertical'` | Animation direction |
+
+### AnimationProperty
+
+| Property  | Type     | Description        |
+| --------- | -------- | ------------------ |
+| `opacity` | `number` | Opacity value      |
+| `x`       | `number` | X-axis translation |
+| `y`       | `number` | Y-axis translation |
+
+### AnimationVariants
+
+| Property  | Type                | Description     |
+| --------- | ------------------- | --------------- |
+| `initial` | `AnimationProperty` | Initial state   |
+| `animate` | `AnimationProperty` | Animation state |
+| `exit`    | `AnimationProperty` | Exit state      |
+
+### ButtonProps
+
+| Property  | Type                                               | Description   |
+| --------- | -------------------------------------------------- | ------------- |
+| `variant` | `'primary' \| 'secondary' \| 'outline' \| 'ghost'` | Button style  |
+| `size`    | `'sm' \| 'md' \| 'lg'`                             | Button size   |
+| `loading` | `boolean`                                          | Loading state |
+
+### FormFieldProps
+
+| Property         | Type     | Description         |
+| ---------------- | -------- | ------------------- |
+| `label`          | `string` | Field label         |
+| `className`      | `string` | Container class     |
+| `inputClassName` | `string` | Input element class |
+| `labelClassName` | `string` | Label element class |
+| `errorMessage`   | `string` | Error message       |
+
+### CheckboxProps
+
+| Property    | Type                         | Description    |
+| ----------- | ---------------------------- | -------------- |
+| `name`      | `string`                     | Checkbox name  |
+| `children`  | `ReactNode`                  | Label content  |
+| `checked`   | `boolean`                    | Checked state  |
+| `onChange`  | `(checked: boolean) => void` | Change handler |
+| `className` | `string`                     | Custom class   |
+
+### OnboardingContextValue
+
+| Property      | Type                     | Description            |
+| ------------- | ------------------------ | ---------------------- |
+| `currentStep` | `number`                 | Current step index     |
+| `totalSteps`  | `number`                 | Total steps count      |
+| `next`        | `() => void`             | Next step function     |
+| `prev`        | `() => void`             | Previous step function |
+| `goToStep`    | `(step: number) => void` | Go to step function    |
+
+### DropdownProps
+
+| Property    | Type        | Description      |
+| ----------- | ----------- | ---------------- |
+| `children`  | `ReactNode` | Dropdown content |
+| `className` | `string`    | Custom class     |
+
+### TextLabelProps
+
+| Property    | Type     | Description  |
+| ----------- | -------- | ------------ |
+| `text`      | `string` | Label text   |
+| `className` | `string` | Custom class |
 
 ## Styling
 
 The package uses Tailwind CSS for styling.  
-Import `import "timepick-kit-react/index.css";` into your app component.
+Import `import "react-stepflow/index.css";` into your app component.
 
-## Utility Functions
+### Browser Support
 
-### `formatTime`
-
-```ts
-import { formatTime } from "timepick-kit-react";
-
-const timeString = formatTime(new Date()); // Returns "hh:mm a" format
-```
-
-### `useTimePicker`
-
-```ts
-import { useTimePicker } from "timepick-kit-react";
-
-const { time, setHour, setMinute, setPeriod } = useTimePicker(initialValue);
-```
-
-### `useClickOutside`
-
-```ts
-import { useClickOutside } from "timepick-kit-react";
-
-useClickOutside(ref, handleClickOutside);
-```
-
-## Features
-
-### Keyboard Navigation
-
-- **Up/Down arrows**: Increment/decrement values
-- **Enter**: Confirm selection
-- **Tab**: Navigate between inputs
-- **Escape**: Close picker
-
-### Customization
-
-- Custom icons support
-- Flexible styling with Tailwind CSS
-- Animation customization via Framer Motion
-- Light/Dark mode theming
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+- Chrome (latest 3 versions)
+- Firefox (latest 3 versions)
+- Safari (latest 2 versions)
+- Edge (latest 3 versions)
 
 ## License
 
@@ -202,7 +319,5 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
----
 
 Created by [David Jaja](https://x.com/JajaDavid8)
