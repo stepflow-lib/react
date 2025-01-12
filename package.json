@@ -2,7 +2,7 @@
   "name": "react-stepflow",
   "description": "An onboarding component for react, with a simple and easy to use API and a set of built-in components.",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "files": [
     "dist"

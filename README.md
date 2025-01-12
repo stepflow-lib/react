@@ -38,14 +38,14 @@ npm install react-stepflow
 ```jsx
 import {
   OnboardingProvider,
-  OnboardingSteps,
+  OnboardingStep,
   OnboardingHeader,
   OnboardingStepIndicator,
 } from "react-stepflow";
 import "react-stepflow/index.css";
 
 function App() {
-  const steps: OnboardingSteps[] = [
+  const steps: OnboardingStep[] = [
     { id: 1, component: <Welcome /> },
     { id: 2, component: <Setup /> },
     { id: 3, component: <Complete /> },
